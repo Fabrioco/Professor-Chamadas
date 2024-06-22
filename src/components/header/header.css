@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  width: 90%;
+  height: 80px;
+  justify-content: center;
+  box-shadow: 0 7px 10px 0 #00000025;
+  border-bottom: 1px solid #757575;
+  font-family: var(--font-title);
+  background-color: #FAFAFA;
+}
+
+.content__left {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  gap: 10px;
+}
+
+.content__left > svg {
+  min-width: 60px;
+  height: 56px;
+}
+
+.content__left > h1 {
+  font-weight: bold;
+  font-size: var(--font-size-title);
+}
+
+.content__right {
+  display: flex;
+  width: 35%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content__right > p {
+  font-size: var(--font-size-paragraph);
+  font-weight: 500;
+  width: 120px;
+}
