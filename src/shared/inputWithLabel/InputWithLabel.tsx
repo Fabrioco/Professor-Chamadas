@@ -1,4 +1,5 @@
 import { LoginProps } from "../../assets/interface/interfaces";
+import './InputWithLabel.css'
 
 export function InputWithLabel({
     nameId,
@@ -9,9 +10,10 @@ export function InputWithLabel({
     onchange,
 }: LoginProps) {
     return (
-        <div>
-            <label htmlFor={nameId}>{text}</label>
+        <div className="container__input">
+            <label htmlFor={nameId} className="labelShared">{text}</label>
             <input
+                className="inputShared"
                 id={nameId}
                 type={type}
                 value={value}

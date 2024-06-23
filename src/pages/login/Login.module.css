@@ -1,0 +1,78 @@
+.containerHome {
+  display: flex;
+  max-width: 100%;
+}
+
+.containerLogin {
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 90%;
+  min-height: 90vh;
+}
+
+.formLogin {
+  width: 400px;
+  min-width: 250px;
+  height: 510px;
+  background-color: var(--color-third);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid #000213;
+  border-radius: 15px;
+  box-shadow: 0 0 7px 0 #00000049;
+}
+
+.formLogin > h2 {
+  background-color: var(--color-secondary);
+  color: #fefefe;
+  width: 80%;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 13px;
+  box-shadow: 0 0 7px 0 #00000049;
+  font: 500 24px var(--font-title);
+}
+
+.imgLogin {
+  width: 650px;
+  max-width: 100%;
+  height: auto;
+  margin: 20px;
+}
+
+.sideBar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 10%;
+  background-color: var(--color-secondary);
+  min-height: 100vh;
+}
+
+.sideBar > span {
+  width: 50px;
+  background-color: var(--color-primary);
+  height: 2px;
+}
+
+.linkSideBar {
+  transform: rotate(90deg);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-family: var(--font-paragraph);
+  transition: all 300ms;
+}
+
+.linkSideBar:hover {
+  text-shadow: 0 0 7px #fefefea7;
+  transform: rotate(0deg);
+  padding: 20px;
+}
