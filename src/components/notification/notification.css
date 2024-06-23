@@ -1,0 +1,45 @@
+.notification {
+  position: fixed;
+  top: 50px;
+  right: -500px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@keyframes showNotification {
+  0% {
+    right: -500px;
+  }
+  25% {
+    right: 20px;
+  }
+  50% {
+    right: 20px;
+  }
+  75% {
+    right: 20px;
+  }
+  100% {
+    right: -500px;
+  }
+}
+
+.notification > span {
+  font-family: var(--font-paragraph);
+  font-size: 16px;
+}
+
+.notification.success {
+  background-color: green;
+  animation: showNotification 3s alternate ease;
+}
+
+.notification.error {
+  background-color: red;
+  animation: showNotification 3s alternate ease;
+}

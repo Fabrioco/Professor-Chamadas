@@ -23,3 +23,8 @@ export type AuthContextType = {
   login: (email: string, password: string) => Promise<void>;
   errorLogin: string;
 };
+
+export interface NotificationProps {
+  message: string;
+  type: string;
+}
