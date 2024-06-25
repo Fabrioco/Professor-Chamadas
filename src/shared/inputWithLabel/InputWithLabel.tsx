@@ -7,7 +7,7 @@ export function InputWithLabel({
     placeholder,
     text,
     value,
-    onchange,
+    onChange,
 }: LoginProps) {
     return (
         <div className="container__input">
@@ -17,7 +17,7 @@ export function InputWithLabel({
                 id={nameId}
                 type={type}
                 value={value}
-                onChange={onchange}
+                onChange={onChange}
                 placeholder={placeholder}
             />
         </div>

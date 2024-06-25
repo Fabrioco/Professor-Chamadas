@@ -1,12 +1,19 @@
 .header {
   display: flex;
-  width: 90%;
   height: 80px;
   justify-content: center;
   box-shadow: 0 7px 10px 0 #00000025;
   border-bottom: 1px solid #757575;
   font-family: var(--font-title);
-  background-color: #FAFAFA;
+  background-color: #fafafa;
+}
+
+.header.signed {
+  width: 100%;
+}
+
+.header.notSigned {
+  width: 90%;
 }
 
 .content__left {

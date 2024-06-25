@@ -3,15 +3,15 @@ import React, { ButtonHTMLAttributes, ReactNode } from "react";
 export interface LoginProps {
   nameId: string;
   type: string;
-  placeholder: string;
-  text: string;
-  value: string;
-  onchange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  text?: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface ButtonSharedProps {
   type: "button" | "submit" | "reset";
-  onclick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   text: string;
 }
 
