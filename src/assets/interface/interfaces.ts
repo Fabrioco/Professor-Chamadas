@@ -22,9 +22,22 @@ export type ChildrenContextType = {
 export type AuthContextType = {
   login: (email: string, password: string) => Promise<void>;
   errorLogin: string;
+  showNotification: (message: string, type: string) => void;
 };
 
 export interface NotificationProps {
   message: string;
   type: string;
+}
+
+export type PrivateProps = {
+  children: ReactNode;
+};
+
+export interface AllPeopleProps {
+  nome: string;
+  date: string;
+  email: string;
+  ra: string;
+  imageUrl: string;
 }

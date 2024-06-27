@@ -68,8 +68,8 @@
 }
 
 .container-admin > table > tbody > tr > td:nth-child(3) > button {
-    font-size: 14px;
-    padding: 5px 15px;
+  font-size: 14px;
+  padding: 5px 15px;
 }
 
 .modalAdd {
@@ -99,6 +99,7 @@
   border: 1px solid var(--color-secondary);
   border-radius: 20px;
   box-shadow: 0 0 7px 0 #00000050;
+  padding-right: 1%;
 }
 
 .sidebarModalAdd {
@@ -110,7 +111,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .imgSidebarModalAdd {
@@ -139,6 +140,8 @@
   padding: 15px;
   font-family: var(--font-title);
   color: #fefefe;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .addPerson > select {

@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "../../shared/button/Button";
 import "./Admin.css";
 import { InputWithLabel } from "../../shared/inputWithLabel/InputWithLabel";
 import noPhoto from "../../assets/images/person-anom.png";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { auth, db, storage } from "../../firebase/firebaseConnection";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { AllPeopleProps } from "../../assets/interface/interfaces";
+import { Notification } from "../../components/notification/Notification";
+import { ContextAuthProvider } from "../../context/auth";
 
 export function Admin() {
+  const { showNotification } = useContext(ContextAuthProvider);
+
+  const [allPeople, setAllPeople] = useState<AllPeopleProps[]>([]);
   const [selectionInput, setSelectionInput] = useState("");
   const [isOpenedModalAdd, setIsOpenedModalAdd] = useState(false);
   const [selectInputModalAdd, setSelectInputModalAdd] = useState("");
@@ -17,8 +27,49 @@ export function Admin() {
   const [inputRAAdd, setInputRAAdd] = useState("");
   const [inputFileAdd, setInputFileAdd] = useState<File | null>(null);
 
+  useEffect(() => {
+    if (selectionInput !== "") renderItem();
+  }, [selectionInput, isOpenedModalAdd]);
+
+  const renderItem = async () => {
+    const querySnapshot = await getDocs(collection(db, `${selectionInput}`));
+    const items = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+    })) as AllPeopleProps[];
+    items.sort();
+    setAllPeople(items);
+  };
+
   const handleOpenModalAdd = () => {
     setIsOpenedModalAdd(!isOpenedModalAdd);
+  };
+
+  const handleAdd = async () => {
+    if (!inputFileAdd) {
+      alert("Nenhum arquivo selecionado para upload");
+      return;
+    }
+    const storageRef = ref(storage, `/${selectInputModalAdd}/${inputRAAdd}`);
+    await uploadBytes(storageRef, inputFileAdd);
+    const downloadURL = await getDownloadURL(storageRef);
+
+    const data = inputDateAdd;
+    const dataFormated = data.split("-").reverse().join("/");
+
+    createUserWithEmailAndPassword(auth, inputEmailAdd, inputRAAdd)
+      .then(async () => {
+        setDoc(doc(db, `${selectInputModalAdd}`, `${inputRAAdd}`), {
+          nome: inputNameAdd,
+          date: dataFormated,
+          email: inputEmailAdd,
+          ra: inputRAAdd,
+          imageURl: downloadURL,
+        });
+      })
+      .then(() => {
+        showNotification("Adicionado com sucesso", "success");
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -47,145 +98,39 @@ export function Admin() {
         <Button type="button" text="ADICIONAR" onClick={handleOpenModalAdd} />
       </main>
 
-      <table>
-        <thead>
-          <tr>
-            <th>RA</th>
-            <th>NOME</th>
-            <th>OPÇÕES</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>4906129</td>
-            <td>José Pedro Da Silva</td>
-            <td>
-              <Button
-                text="ALTERAR"
-                type="button"
-                onClick={() => console.log("alterado")}
-              />
-              <Button
-                text="REMOVER"
-                type="button"
-                onClick={() => console.log("Removido")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>4906129</td>
-            <td>José Pedro Da Silva</td>
-            <td>
-              <Button
-                text="ALTERAR"
-                type="button"
-                onClick={() => console.log("alterado")}
-              />
-              <Button
-                text="REMOVER"
-                type="button"
-                onClick={() => console.log("Removido")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>4906129</td>
-            <td>José Pedro Da Silva</td>
-            <td>
-              <Button
-                text="ALTERAR"
-                type="button"
-                onClick={() => console.log("alterado")}
-              />
-              <Button
-                text="REMOVER"
-                type="button"
-                onClick={() => console.log("Removido")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>4906129</td>
-            <td>José Pedro Da Silva</td>
-            <td>
-              <Button
-                text="ALTERAR"
-                type="button"
-                onClick={() => console.log("alterado")}
-              />
-              <Button
-                text="REMOVER"
-                type="button"
-                onClick={() => console.log("Removido")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>4906129</td>
-            <td>José Pedro Da Silva</td>
-            <td>
-              <Button
-                text="ALTERAR"
-                type="button"
-                onClick={() => console.log("alterado")}
-              />
-              <Button
-                text="REMOVER"
-                type="button"
-                onClick={() => console.log("Removido")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>4906129</td>
-            <td>José Pedro Da Silva</td>
-            <td>
-              <Button
-                text="ALTERAR"
-                type="button"
-                onClick={() => console.log("alterado")}
-              />
-              <Button
-                text="REMOVER"
-                type="button"
-                onClick={() => console.log("Removido")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>4906129</td>
-            <td>José Pedro Da Silva</td>
-            <td>
-              <Button
-                text="ALTERAR"
-                type="button"
-                onClick={() => console.log("alterado")}
-              />
-              <Button
-                text="REMOVER"
-                type="button"
-                onClick={() => console.log("Removido")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>4906129</td>
-            <td>José Pedro Da Silva</td>
-            <td>
-              <Button
-                text="ALTERAR"
-                type="button"
-                onClick={() => console.log("alterado")}
-              />
-              <Button
-                text="REMOVER"
-                type="button"
-                onClick={() => console.log("Removido")}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      {allPeople.length !== 0 ? (
+        <table>
+          <thead>
+            <tr>
+              <th>RA</th>
+              <th>NOME</th>
+              <th>OPÇÕES</th>
+            </tr>
+          </thead>
+          <tbody>
+            {allPeople.map((person, index) => (
+              <tr key={index}>
+                <td>{person.ra}</td>
+                <td>{person.nome}</td>
+                <td>
+                  <Button
+                    text="ALTERAR"
+                    type="button"
+                    onClick={() => console.log("alterado")}
+                  />
+                  <Button
+                    text="REMOVER"
+                    type="button"
+                    onClick={() => console.log("Removido")}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <span>Selecione uma lista</span>
+      )}
 
       <div className={isOpenedModalAdd ? "modalAdd opened" : "modalAdd closed"}>
         <div className="modalAddContainer">
@@ -259,8 +204,9 @@ export function Admin() {
                 text="Selecione uma foto"
                 type="file"
                 onChange={(e) => {
-                  if (e.target.files) {
-                    setInputFileAdd(e.target.files[0]);
+                  const files = e.target.files;
+                  if (files && files[0]) {
+                    setInputFileAdd(files[0]);
                   }
                 }}
               />
@@ -271,7 +217,7 @@ export function Admin() {
                 type="button"
                 onClick={handleOpenModalAdd}
               />
-              <Button text="CONCLUIDO" type="button" onClick={() => {}} />
+              <Button text="CONCLUIDO" type="button" onClick={handleAdd} />
             </div>
           </div>
         </div>
